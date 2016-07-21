@@ -1,7 +1,10 @@
 var express = require('express');
 var serverApp = express();
-
 var mongojs = require("mongojs");
+
+// set the port of our application
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 3000;
 
 //local default mongo DB
 //var db = mongojs('contactlist',['contactlist']);
@@ -123,5 +126,5 @@ serverApp.put('/contactlist/:id', function(req,res) {
 	});
 });
 
-serverApp.listen(3000);
-console.log('Server running on port 3000');
+serverApp.listen(port);
+console.log('Server running on port ' + port);
