@@ -52,3 +52,8 @@ var port = process.env.PORT || 3000;
 
 serverApp.listen(port);
 ```
+
+----
+## How to deploy to Heroku
+
+Please follow the instructions nicely documented on this [scotch.io](https://scotch.io/tutorials/how-to-deploy-a-node-js-app-to-heroku)
