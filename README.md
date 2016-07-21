@@ -34,3 +34,23 @@ URL's to download frameworks
 ----
 ## Application UI
 ![Contact List](/screenshots/screen1.png?raw=true "Contact List")
+
+----
+## Database configuration
+
+MongoDB database can be local or on remote server. In this example MongoDB used on a remote server called
+Heroku. To connect to remote MondoDB database you need to use the database connection string. This is documented at [mongojs GIT repo](https://github.com/mafintosh/mongojs)
+
+---
+## Web Server port 
+Default Web Server port number used for NodeJS is 3000. In this example the application is served 
+from Heroku repository. To configure the port number to wok in local machine as well as on the Heroku
+use the following code in server.js
+
+``` javascript
+// set the port of our application
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 3000;
+
+serverApp.listen(port);
+```
