@@ -43,7 +43,7 @@ Heroku. To connect to remote MondoDB database you need to use the database conne
 
 ---
 ## Web Server port 
-Web Server port number locally for NodeJS is 3000. This application developed locally using NodeJS with port number 3000. Finally deployed to Heroku repository. To configure the port number to work in local machine as well as on the Heroku use the following code in server.js
+This application developed locally using NodeJS with port number 3000. Finally deployed to Heroku repository. To configure the port number to work in local machine as well as on the Heroku use the following code in server.js
 
 ``` javascript
 // set the port of our application
