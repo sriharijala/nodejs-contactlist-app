@@ -14,6 +14,10 @@ var bodyParser = require('body-parser');
 serverApp.use(express.static(__dirname + '/public'));
 serverApp.use(bodyParser.json());							//to parge request body
 
+serverApp.get('/', function(req,res) {
+	res.write('contactlist services are up and running!')
+});
+
 serverApp.get('/contactlist', function(req,res) {
 
 	console.log('Server received contactlist request');
