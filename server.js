@@ -1,6 +1,11 @@
+var compression = require('compression');  //to improve performance
 var express = require('express');
-var serverApp = express();
+var serverApp = module.exports = express();
 var mongojs = require("mongojs");
+
+//custom services
+var chats = require("./chats.js");
+var youtube = require("./youtube.js");
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
@@ -10,22 +15,56 @@ var port = process.env.PORT || 3000;
 //var db = mongojs('contactlist',['contactlist']);
 
 //remote mongo DB at Heroku
-var db = mongojs('sjala:jala123@ds047802.mlab.com:47802/heroku_35qbv260',['contactlist']);
+var db = module.exports = mongojs('sjala:jala123@ds047802.mlab.com:47802/heroku_35qbv260',['contactlist']);
 
 var bodyParser = require('body-parser');
 
-serverApp.use(express.static(__dirname + '/public'));
-serverApp.use(bodyParser.json());							//to parge request body
 
-serverApp.get('/', function(req,res) {
-	res.write('contactlist services are up and running!')
+
+//peformance improvement
+serverApp.use(compression());
+
+//public file folder		
+serverApp.use(express.static(__dirname + '/public'));
+
+//to parge request body
+serverApp.use(bodyParser.json());
+
+// Add headers
+serverApp.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8100');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
 });
+
+
+serverApp.get('/pingtest', function(req,res) {
+
+	console.log('received pingtest request');
+
+	res.send('contactlist services are up and running!');
+
+});
+
 
 serverApp.get('/contactlist', function(req,res) {
 
 	console.log('Server received contactlist request');
 
-
+   
     /*
 	var person1 = {
 		name : 'Srihari',
@@ -55,6 +94,7 @@ serverApp.get('/contactlist', function(req,res) {
 	db.contactlist.find(function(err, docs) {
 
 		console.log(docs);
+	
 		res.json(docs);
 
 	});
@@ -91,6 +131,7 @@ serverApp.delete('/contactlist/:id', function(req,res){
 		res.json(doc);
 
 	});
+	
 });
 
 //get single contact details
@@ -126,5 +167,8 @@ serverApp.put('/contactlist/:id', function(req,res) {
 	});
 });
 
+
+
 serverApp.listen(port);
 console.log('Server running on port ' + port);
+
